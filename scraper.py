@@ -1,24 +1,22 @@
 import requests
 from bs4 import BeautifulSoup
-import datetime
+from datetime import datetime, timedelta
 
-month = datetime.datetime.now().strftime("%B")
-day = datetime.datetime.now().strftime("%d")
+today = datetime.today()
 
-# this will need to be fixed to address rolling over a new month
-today = f"https://www.asafenashville.org/updates/mphd-daily-covid-19-update-for-{month.lower()}-{day}/"
-yesterday = f"https://www.asafenashville.org/updates/mphd-daily-covid-19-update-for-{month.lower()}-{int(day)-1}/"
+today_url = f"https://www.asafenashville.org/updates/mphd-daily-covid-19-update-for-{today.strftime('%B').lower()}-{today.strftime('%d')}/"
+yesterday_url = f"https://www.asafenashville.org/updates/mphd-daily-covid-19-update-for-{(today - timedelta(1)).strftime('%B').lower()}-{(today - timedelta(1)).strftime('%d')}/"
 
+today_page = requests.get(today_url)
+yesterday_page =requests.get(yesterday_url)
 
+for page in [today_page, yesterday_page]:
+   soup = BeautifulSoup(page.content, 'html.parser')
+   table = soup.table
+   table_rows = table.find_all('tr')
 
-page = requests.get(yesterday)
-
-soup = BeautifulSoup(page.content, 'html.parser')
-table = soup.table
-table_rows = table.find_all('tr')
-
-for tr in table_rows:
-   td = tr.find_all('td')
-   row = [i.text for i in td]
-   if row[0] in ["Total", "Inactive/Recovered", "Deaths", "Total active cases"]:
-      print(row)
+   for tr in table_rows:
+      td = tr.find_all('td')
+      row = [i.text for i in td]
+      if row[0] in ["Total", "Inactive/Recovered", "Deaths", "Total active cases"]:
+         print(row)
