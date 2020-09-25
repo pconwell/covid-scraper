@@ -1,0 +1,6 @@
+{
+    "python.venvPath": "C:/Users/conwelps/.virtualenvs",
+    "python.pythonPath": "C:/Users/conwelps/.virtualenvs/covid-scraper-GK8HSd0L/Scripts/python.exe",
+    "code-runner.executorMap": {"python": "$pythonPath -u $fullFileName",},
+    "code-runner.runInTerminal": true
+ }
