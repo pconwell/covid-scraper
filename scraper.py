@@ -30,7 +30,7 @@ inactive_delta = (data[1] - data[5])
 deaths_delta = (data[2] - data[6])
 active_delta = (data[3] - data[7])
 
-print(f"Cases: {data[0]:,} ({total_delta:+d})\nDeaths: {data[1]:,} ({deaths_delta:+d})\nRecovered/Inactive: {data[2]:,} ({inactive_delta:+d})\nActive: {data[3]:,} ({active_delta:+d})")
+print(f"Cases: {data[0]:,} ({total_delta:+d})\nRecovered/Inactive: {data[1]:,} ({inactive_delta:+d})\nDeaths: {data[2]:,} ({deaths_delta:+d})\nActive: {data[3]:,} ({active_delta:+d})")
 
 ##############################################################################################
 ##############################################################################################
@@ -40,10 +40,22 @@ key_metric_url = "https://www.asafenashville.org/reopening-key-metrics"
 metric_page = requests.get(key_metric_url)
 soup = BeautifulSoup(metric_page.content, 'html.parser')
 
-test = soup(text=re.compile('Current: '))
+info = soup(text=re.compile('Current: '))
 
 metrics = []
-for i in test:
+for i in info:
    metrics.append(i.split(":")[1].split(" ")[1])
 
 print(f"Transmission Rate: {metrics[0]}\nHospital Floor Bed Capacity: {metrics[4]} (Goal: 20%)\nHospital ICU Bed Capacity: {metrics[5]} (Goal: 20%)\nNew Cases per 100K Residents: {metrics[6]} (Goal: <10)\n7-Day Positive Test Rate: {metrics[7]} (Goal: <10)")
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+state__pdf_url = "https://www.tn.gov/content/tn/health/cedep/ncov/data.html"
+state_data_url = "https://www.tn.gov/health/cedep/ncov.html"
+
+page = requests.get(key_metric_url)
+soup = BeautifulSoup(page.content, 'html.parser')
+
+
