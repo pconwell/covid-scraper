@@ -5,8 +5,10 @@ import re
 
 today = datetime.today()
 
-today_url = f"https://www.asafenashville.org/updates/mphd-daily-covid-19-update-for-{today.strftime('%B').lower()}-{today.strftime('%d')}/"
-yesterday_url = f"https://www.asafenashville.org/updates/mphd-daily-covid-19-update-for-{(today - timedelta(1)).strftime('%B').lower()}-{(today - timedelta(1)).strftime('%d')}/"
+today_url = f"https://www.asafenashville.org/updates/mphd-daily-covid-19-update-for-{today.strftime('%B').lower()}-{today.strftime('%d').lstrip('0')}/"
+yesterday_url = f"https://www.asafenashville.org/updates/mphd-daily-covid-19-update-for-{(today - timedelta(1)).strftime('%B').lower()}-{(today - timedelta(1)).strftime('%d').lstrip('0')}/"
+
+print(today_url)
 
 today_page = requests.get(today_url)
 yesterday_page =requests.get(yesterday_url)
@@ -14,7 +16,9 @@ yesterday_page =requests.get(yesterday_url)
 data = []
 for page in [today_page, yesterday_page]:
    soup = BeautifulSoup(page.content, 'html.parser')
+   #print(soup)
    table = soup.table
+   #print(table)
    table_rows = table.find_all('tr')
 
    for tr in table_rows:
