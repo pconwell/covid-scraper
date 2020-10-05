@@ -1,0 +1,1 @@
+curl -o /home/pconwell/covid-scraper/state_data/$(date -d "yesterday" +%Y-%m-%d).xlsx https://www.tn.gov/content/dam/tn/health/documents/cedep/novel-coronavirus/datasets/Public-Dataset-Daily-Data-Snapshot.XLSX
